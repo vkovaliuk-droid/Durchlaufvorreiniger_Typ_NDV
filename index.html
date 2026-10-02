@@ -899,7 +899,11 @@ ul {
   <div id="galleryView">
 
     <div class="gallery-box" id="galleryBox">
-      bilder/NDV_Bild_1.jpg
+      <img
+        id="galleryImage"
+        src="bilder/NDV_Bild_1.jpg"
+        alt="Durchlaufvorreiniger Typ NDV"
+>
 
       <video
         id="galleryVideo"
@@ -934,18 +938,24 @@ ul {
 
     <div class="model-viewer-box">
       <model-viewer
-        id="productModel"
-        src="modelle/NDV40-60.glb"
-        alt="Interaktives 3-D-Modell des Durchlaufvorreinigers Typ NDV"
-        camera-controls
-        auto-rotate
-        rotation-per-second="18deg"
-        shadow-intensity="1"
-        exposure="1"
-        interaction-prompt="auto"
-        touch-action="pan-y"
-        loadingass="model-error">
-      Das 3-D-Modell konnte nicht geladen werden.
+       id="productModel"
+       src="modelle/NDV40-60.glb"
+       alt="Interaktives 3-D-Modell des Durchlaufvorreinigers"
+       camera-controls
+       touch-action="none"
+       disable-tap
+       auto-rotate
+       auto-rotate-delay="0"
+       rotation-per-second="15deg"
+       camera-orbit="0deg 75deg auto"
+       camera-target="auto auto auto"
+       field-of-view="30deg"
+       interpolation-decay="80"
+       shadow-intensity="1"
+       exposure="1"
+       loading="eager"
+      >
+      </model-viewer>
     </div>
   </div>
 
@@ -1061,10 +1071,6 @@ document.addEventListener("DOMContentLoaded", function () {
       type: "image",
       src: "bilder/NDV_Bild_4.jpg"
     },    
-    {
-      type: "video",
-      src: "videos/produktvideo.mp4"
-    }
   ];
 
   let currentMedia = 0;
@@ -1084,8 +1090,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function showPage(pageId) {
     closeBrochure();
 
-      if (pageId !== "gallery") {
-    closeModelView();
+    if (pageId !== "gallery" && modelViewIsOpen) {
+      closeModelView();
     }
 
     const pages = document.querySelectorAll(".page");
@@ -1251,6 +1257,32 @@ document.addEventListener("DOMContentLoaded", function () {
   window.prevMedia = prevMedia;
 
 let modelViewIsOpen = false;
+const DEFAULT_CAMERA_ORBIT = "0deg 75deg auto";
+const DEFAULT_CAMERA_TARGET = "auto auto auto";
+const DEFAULT_FIELD_OF_VIEW = "30deg";
+
+function resetModelView() {
+  const model = document.getElementById("productModel");
+
+  if (!model) {
+    return;
+  }
+
+  /* Ausgangswerte als JavaScript-Eigenschaften setzen */
+  model.cameraOrbit = DEFAULT_CAMERA_ORBIT;
+  model.cameraTarget = DEFAULT_CAMERA_TARGET;
+  model.fieldOfView = DEFAULT_FIELD_OF_VIEW;
+
+  /* Automatische Drehung auf den Anfang zurücksetzen */
+  if (typeof model.resetTurntableRotation === "function") {
+    model.resetTurntableRotation();
+  }
+
+  /* Kamera sofort an die Ausgangsposition setzen */
+  if (typeof model.jumpCameraToGoal === "function") {
+    model.jumpCameraToGoal();
+  }
+}
 
 function toggleModelView() {
   if (modelViewIsOpen) {
@@ -1274,6 +1306,8 @@ function openModelView() {
 
   const toggleButton =
     document.getElementById("modelToggleButton");
+
+  resetModelView();  
 
   modelViewIsOpen = true;
 
@@ -1309,10 +1343,10 @@ function closeModelView() {
   const toggleButton =
     document.getElementById("modelToggleButton");
 
-  const productModel =
-    document.getElementById("productModel");
-
   modelViewIsOpen = false;
+
+  /* Modell vor dem Ausblenden zurücksetzen */
+  resetModelView();
 
   if (galleryView) {
     galleryView.style.display = "block";
@@ -1328,13 +1362,6 @@ function closeModelView() {
 
   if (toggleButton) {
     toggleButton.setAttribute("aria-pressed", "false");
-  }
-
-  if (
-    productModel &&
-    typeof productModel.resetTurntableRotation === "function"
-  ) {
-    productModel.resetTurntableRotation();
   }
 }
 
