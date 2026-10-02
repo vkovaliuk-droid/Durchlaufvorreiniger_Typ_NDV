@@ -757,6 +757,59 @@ line-height: 1;
   pointer-events: none;
 }
 
+/* Sprachschalter */
+
+.language-switch {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top));
+  right: 18px;
+  z-index: 150;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+
+  background: rgba(2, 6, 23, 0.82);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.language-button {
+  min-width: 52px;
+  height: 42px;
+  padding: 0 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.language-button.active {
+  background: #ffe843;
+  color: #004388;
+}
+
+.language-button:active {
+  transform: scale(0.96);
+}
+
 </style>
 
 </head>
@@ -764,6 +817,28 @@ line-height: 1;
 <body>
 
 <div class="app">
+
+  <div class="language-switch" aria-label="Sprache auswählen">
+    <button
+      id="languageDe"
+      class="language-button active"
+      type="button"
+      onclick="setLanguage('de')"
+      aria-pressed="true"
+    >
+      DE
+    </button>
+
+    <button
+      id="languageEn"
+      class="language-button"
+      type="button"
+      onclick="setLanguage('en')"
+      aria-pressed="false"
+    >
+      EN
+    </button>
+  </div>
 
   <main id="content" class="content">
 
@@ -775,11 +850,20 @@ line-height: 1;
        </div>
 
         <div class="hero-text">
-          <h1>Durchlaufvorreiniger<br>Typ NDV</h1>
-          <p>Leistungsstarke Vorreinigung mit geringem Platzbedarf – für reibungslose Weiterverarbeitung und Werterhalt der Ernte.</p>
+          <h1 data-i18n="homeTitle">
+            Durchlaufvorreiniger<br>Typ NDV
+          </h1>
+          <p data-i18n="homeDescription">
+            Leistungsstarke Vorreinigung mit geringem Platzbedarf – 
+            für reibungslose Weiterverarbeitung und Werterhalt der Ernte.
+          </p>
       </div> 
     </div>
-          <button class="primary-button home-button" onclick="showPage('info')">
+          <button
+            class="primary-button home-button"
+            onclick="showPage('info')"
+            data-i18n="learnMore"
+          >
             MEHR ERFAHREN
           </button>
         
@@ -787,7 +871,9 @@ line-height: 1;
     </section>
 
     <section id="brochures" class="page">
-      <h2 class="page-title">Prospekte</h2>
+      <h2 class="page-title" data-i18n="brochuresTitle">
+        Prospekte
+      </h2>
 
   <div class="qr-info-box">
 
@@ -795,9 +881,11 @@ line-height: 1;
     <img src="bilder/qr-prospekte.png" alt="QR-Code für Prospekte">
   </div>
   <div class="qr-text">
-    <h3>Prospekte herunterladen</h3>
+    <h3 data-i18n="downloadBrochures">
+      Prospekte herunterladen
+    </h3>
 
-    <p>
+    <p data-i18n="downloadBrochuresText">
       Scannen Sie den QR-Code mit Ihrem Smartphone, um alle Prospekte
       und Produktinformationen direkt herunterzuladen.
     </p>
@@ -807,19 +895,36 @@ line-height: 1;
 
       <div class="brochure-list">
 
-        <button class="brochure-card" onclick="openBrochure('Gesamtkatalog Reinigen', 'pdf/Reinigen_Katalog.pdf')">
+        <button 
+          class="brochure-card" 
+          onclick="openBrochure('cleaningCatalog', 'pdf/Reinigen_Katalog.pdf')"
+        >
           <span class="icon">📄</span>
           <div>
-            <h3>Gesamtkatalog Reinigen</h3>
-            <p>Ausführliche technische Daten, Maße und Details zum Durchlaufreiniger Typ NDV sowie allen Modellen dieser Kategorie.</p>
+            <h3 data-i18n="cleaningCatalog">
+              Gesamtkatalog Reinigen
+            </h3>
+            <p data-i18n="cleaningCatalogText">
+              Ausführliche technische Daten, Maße und Details zum Durchlaufreiniger Typ NDV 
+              sowie allen Modellen dieser Kategorie.
+            </p>
           </div>
         </button>
 
-        <button class="brochure-card" onclick="openBrochure('Produktprospekt Reinigen', 'pdf/Reinigen_Prospekt.pdf')">
+        <button 
+          class="brochure-card" 
+          onclick="openBrochure('cleaningBrochure', 'pdf/Reinigen_Prospekt.pdf')"
+        >
           <span class="icon">📄</span>
           <div>
-            <h3>Produktprospekt Reinigen</h3>
-            <p>Kompakter Überblick über die wichtigsten Features, Einsatzbereiche und Vorteile unserer Reinigungssysteme.</p>
+            <h3 data-i18n="cleaningBrochure">
+              Produktprospekt Reinigen
+            </h3>
+
+            <p data-i18n="cleaningBrochureText">
+              Kompakter Überblick über die wichtigsten Features, Einsatzbereiche 
+              und Vorteile unserer Reinigungssysteme.
+            </p>
           </div>
         </button>
 
@@ -827,11 +932,15 @@ line-height: 1;
     </section>
 
     <section id="info" class="page">
-      <h2 class="page-title">Informationen</h2>
+      <h2 class="page-title" data-i18n="informationTitle">
+        Informationen
+      </h2>
 
       <div class="card">
-        <h3>Durchlaufvorreiniger Typ NDV</h3>
-        <p>
+        <h3 data-i18n="productTitle">
+          Durchlaufvorreiniger Typ NDV
+        </h3>
+        <p data-i18n="productDescription">
           Mit dem kompakten und leistungsstarken NEUERO Durchlauf-Vorreiniger Typ NDV sichern Sie die Qualität Ihrer Ernteprodukte schon vor der Weiterverarbeitung.<br><br>
           Das Gerät arbeitet nach dem bewährten Kaskadenprinzip: Das Getreide wird mehrfach von Luft durchströmt, wodurch leichte Verunreinigungen wie Staub, Spreu oder Bruchkörner effektiv entfernt werden – direkt im Durchlauf.<br><br>
           Dank seiner geringen Einbauhöhe und flexiblen Einstellmöglichkeiten lässt sich der NDV problemlos in bestehende Anlagen integrieren und an unterschiedliche Schüttgüter anpassen.
@@ -839,18 +948,32 @@ line-height: 1;
       </div>
 
       <div class="card">
-        <h3>Vorteile</h3>
+        <h3 data-i18n="advantages">
+          Vorteile
+        </h3>
         <ul>
-          <li>Kompakter Aufbau – ideal auch bei begrenztem Platz</li>
-          <li>Effektive Trennung leichter Fremdstoffe durch Kaskadenprinzip</li>
-          <li>Vielseitig einstellbar für optimale Anpassung an Ihr Produkt</li>
-          <li>Nachrüstbar in bestehende Getreideverarbeitungssysteme</li>
-          <li>Serienmäßig ausgestattet mit Gebläse, Sichtfenster & Drosselklappe</li>
+          <li data-i18n="advantage1">
+            Kompakter Aufbau – ideal auch bei begrenztem Platz
+          </li>
+          <li data-i18n="advantage2">
+            Effektive Trennung leichter Fremdstoffe durch Kaskadenprinzip
+          </li>
+          <li data-i18n="advantage3">
+            Vielseitig einstellbar für optimale Anpassung an Ihr Produkt
+          </li>
+          <li data-i18n="advantage4">
+            Nachrüstbar in bestehende Getreideverarbeitungssysteme
+          </li>
+          <li data-i18n="advantage5">
+            Serienmäßig ausgestattet mit Gebläse, Sichtfenster & Drosselklappe
+          </li>
         </ul>
       </div>
 
       <div class="card">
-       <h3>Baugrößen im Vergleich</h3>
+       <h3 data-i18n="modelComparison">
+        Baugrößen im Vergleich
+      </h3>
 
        <img
          src="bilder/NDV_Bild_Zeichnung.webp"
@@ -860,7 +983,9 @@ line-height: 1;
       </div>
 
       <div class="card">
-        <h3>Technische Daten</h3>
+        <h3 data-i18n="technicalData">
+          Technische Daten
+        </h3>
 
         <div class="technical-table-wrapper">
           <table class="technical-table">
