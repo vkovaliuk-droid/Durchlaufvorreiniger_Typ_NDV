@@ -992,37 +992,53 @@ line-height: 1;
             
             <thead>
               <tr>
-                <th scope="col">Typ</th>
-                <th scope="col">NDV 15-35</th>
-                <th scope="col">NDV 40-60</th>
-                <th scope="col">NDV 80-120</th>
+                <th scope="col" data-i18n="type">
+                  Typ
+                </th>
+                <th scope="col">
+                  NDV 15-35
+                </th>
+                <th scope="col">
+                  NDV 40-60
+                </th>
+                <th scope="col">
+                  NDV 80-120
+                </th>
               </tr>
             </thead>
 
             <tbody>
               <tr>
-                <th scope="row">Einlauf Ø [mm]</th>
+                <th scope="row" data-i18n="inlet">
+                  Einlauf Ø [mm]
+                </th>
                 <td>150</td>
                 <td>200</td>
                 <td>250</td>
               </tr>
 
               <tr>
-                <th scope="row">Auslauf Ø [mm]</th>
+                <th scope="row" data-i18n="outlet">
+                  Auslauf Ø [mm]
+                </th>
                 <td>150</td>
                 <td>200</td>
                 <td>250</td>
               </tr>
 
               <tr>
-                <th scope="row">Absauggebläse [kW]</th>
+                <th scope="row" data-i18n="extractionFan">
+                  Absauggebläse [kW]
+                </th>
                 <td>4,0</td>
                 <td>4,0</td>
                 <td>2 × 4,0</td>
               </tr>
 
               <tr>
-                <th scope="row">Luftleistung [m³/h]</th>
+                <th scope="row" data-i18n="airCapacity">
+                  Luftleistung [m³/h]
+                </th>
                 <td>bis 3.000</td>
                 <td>bis 3.000</td>
                 <td>bis 6.000</td>
@@ -1030,8 +1046,10 @@ line-height: 1;
 
               <tr>
                 <th scope="row">
+                  <span data-i18n="cleaningCapacity">
                   Reinigungsleistung [t/h]
-                  <span class="table-note">
+                  </span>
+                  <span class="table-note" data-i18n="cleaningCapacityNote">
                     bei 750 kg/m³ Schüttgewicht und 14 % Restfeuchte
                   </span>
                 </th>
@@ -1046,7 +1064,9 @@ line-height: 1;
     </section>
 
 <section id="gallery" class="page">
-  <h2 class="page-title">Galerie</h2>
+  <h2 class="page-title" data-i18n="galleryTitle">
+    Galerie
+  </h2>
 
   <!-- Normale Bildergalerie -->
   <div id="galleryView">
@@ -1070,18 +1090,20 @@ line-height: 1;
     </div>
 
     <div class="gallery-controls">
-      <button type="button" onclick="prevMedia()">
+      <button 
+       type="button" 
+       onclick="prevMedia()" data-i18n="previous">
         Zurück
       </button>
 
       <div id="mediaDots" class="media-dots"></div>
 
-      <button type="button" onclick="nextMedia()">
+      <button type="button" onclick="nextMedia()" data-i18n="next">
         Weiter
       </button>
     </div>
 
-    <p class="hint">
+    <p class="hint" data-i18n="galleryHint">
       Sie können die Galerie auch nach links oder rechts wischen.
     </p>
   </div>
@@ -1128,7 +1150,7 @@ line-height: 1;
       </svg>
     </span>
 
-    <span id="modelToggleText">
+    <span id="modelToggleText" data-i18n="openModel">
       Produkt in 3-D ansehen
     </span>
   </button>
@@ -1139,11 +1161,15 @@ line-height: 1;
   <div id="pdfOverlay" class="pdf-overlay">
     <div class="pdf-header">
       <div>
-        <span class="small-label">Prospekt</span>
-        <h3 id="pdfTitle">Gesamtkatalog Reinigen</h3>
+        <span class="small-label" data-i18n="brochureLabel">
+          Prospekt
+        </span>
+        <h3 id="pdfTitle" data-i18n="pdfTitle">
+          Gesamtkatalog Reinigen
+        </h3>
       </div>
 
-      <button class="close-button" onclick="closeBrochure()">
+      <button class="close-button" onclick="closeBrochure()" data-i18n="close">
         Schließen
       </button>
     </div>
@@ -1161,7 +1187,9 @@ line-height: 1;
         <path d="M9 20v-6h6v6"></path>
       </svg>
     </span>
-    <span class="nav-label">Home</span>
+    <span class="nav-label" data-i18n="navHome">
+      Home
+    </span>
   </button>
 
   <button onclick="showPage('brochures')" id="nav-brochures">
@@ -1173,7 +1201,9 @@ line-height: 1;
         <path d="M9 17h6"></path>
       </svg>
     </span>
-    <span class="nav-label">Prospekte</span>
+    <span class="nav-label" data-i18n="navBrochures">
+      Prospekte
+    </span>
   </button>
 
   <button onclick="showPage('info')" id="nav-info">
@@ -1184,7 +1214,9 @@ line-height: 1;
         <path d="M12 7h.01"></path>
       </svg>
     </span>
-    <span class="nav-label">Info</span>
+    <span class="nav-label" data-i18n="navInfo">
+      Info
+    </span>
   </button>
 
   <button onclick="showPage('gallery')" id="nav-gallery">
@@ -1195,7 +1227,9 @@ line-height: 1;
         <path d="M4 16l4.5-4 3.5 3 2.5-2.5L20 17"></path>
       </svg>
     </span>
-    <span class="nav-label">Galerie</span>
+    <span class="nav-label" data-i18n="navGallery">
+      Galerie
+    </span>
   </button>
 
 </nav>
@@ -1203,7 +1237,249 @@ line-height: 1;
 </div>
 
   <script>
+
 document.addEventListener("DOMContentLoaded", function () {
+
+  let currentLanguage = "de";
+
+ const translations = {
+  de: {
+    homeTitle: "Durchlaufvorreiniger<br>Typ NDV",
+    homeDescription:
+      "Leistungsstarke Vorreinigung mit geringem Platzbedarf für reibungslose Weiterverarbeitung und Werterhalt der Ernte.",
+    learnMore: "MEHR ERFAHREN",
+
+    brochuresTitle: "Prospekte",
+    downloadBrochures: "Prospekte herunterladen",
+    downloadBrochuresText:
+      "Scannen Sie den QR-Code mit Ihrem Smartphone, um alle Prospekte und Produktinformationen direkt herunterzuladen.",
+
+    cleaningCatalog: "Gesamtkatalog Reinigen",
+    cleaningCatalogText:
+      "Ausführliche technische Daten, Maße und Details zum Durchlaufreiniger Typ NDV sowie allen Modellen dieser Kategorie.",
+
+    cleaningBrochure: "Produktprospekt Reinigen",
+    cleaningBrochureText:
+      "Kompakter Überblick über die wichtigsten Funktionen, Einsatzbereiche und Vorteile unserer Reinigungssysteme.",
+
+    informationTitle: "Informationen",
+    productTitle: "Durchlaufvorreiniger Typ NDV",
+    productDescription:
+      "Mit dem kompakten und leistungsstarken NEUERO Durchlauf-Vorreiniger Typ NDV sichern Sie die Qualität Ihrer Ernteprodukte schon vor der Weiterverarbeitung.<br><br>" +
+      "Das Gerät arbeitet nach dem bewährten Kaskadenprinzip: Das Getreide wird mehrfach von Luft durchströmt, wodurch leichte Verunreinigungen wie Staub, Spreu oder Bruchkörner effektiv entfernt werden.<br><br>" +
+      "Dank seiner geringen Einbauhöhe und flexiblen Einstellmöglichkeiten lässt sich der NDV problemlos in bestehende Anlagen integrieren und an unterschiedliche Schüttgüter anpassen.",
+
+    advantages: "Vorteile",
+    advantage1:
+      "Kompakter Aufbau, ideal auch bei begrenztem Platz",
+    advantage2:
+      "Effektive Trennung leichter Fremdstoffe durch Kaskadenprinzip",
+    advantage3:
+      "Vielseitig einstellbar für optimale Anpassung an Ihr Produkt",
+    advantage4:
+      "Nachrüstbar in bestehende Getreideverarbeitungssysteme",
+    advantage5:
+      "Serienmäßig ausgestattet mit Gebläse, Sichtfenster und Drosselklappe",
+
+    modelComparison: "Baugrößen im Vergleich",
+    technicalData: "Technische Daten",
+    type: "Typ",
+    inlet: "Einlauf Ø [mm]",
+    outlet: "Auslauf Ø [mm]",
+    extractionFan: "Absauggebläse [kW]",
+    airCapacity: "Luftleistung [m³/h]",
+    cleaningCapacity: "Reinigungsleistung [t/h]",
+    cleaningCapacityNote:
+      "bei 750 kg/m³ Schüttgewicht und 14 % Restfeuchte",
+
+    galleryTitle: "Galerie",
+    previous: "Zurück",
+    next: "Weiter",
+    galleryHint:
+      "Sie können die Galerie auch nach links oder rechts wischen.",
+
+    openModel: "Produkt in 3-D ansehen",
+    closeModel: "Zurück zur Galerie",
+    modelLoading: "3-D-Modell wird geladen …",
+    modelInstructions:
+      "<strong>Modell bedienen:</strong> Mit einem Finger drehen und mit zwei Fingern vergrößern.",
+    modelError:
+      "Das 3-D-Modell konnte nicht geladen werden.",
+
+    brochureLabel: "Prospekt",
+    close: "Schließen",
+
+    navHome: "Home",
+    navBrochures: "Prospekte",
+    navInfo: "Info",
+    navGallery: "Galerie"
+  },
+
+  en: {
+    homeTitle: "Pre-cleaner<br>Type NDV",
+    homeDescription:
+      "High-performance pre-cleaning with minimal space requirements for smooth downstream processing and preservation of crop quality.",
+    learnMore: "LEARN MORE",
+
+    brochuresTitle: "Brochures",
+    downloadBrochures: "Download brochures",
+    downloadBrochuresText:
+      "Scan the QR code with your smartphone to download all brochures and product information directly.",
+
+    cleaningCatalog: "Cleaning systems catalogue",
+    cleaningCatalogText:
+      "Detailed technical data, dimensions and information about the NDV pre-cleaner and all models in this product category.",
+
+    cleaningBrochure: "Cleaning systems brochure",
+    cleaningBrochureText:
+      "A compact overview of the key features, applications and benefits of our cleaning systems.",
+
+    informationTitle: "Information",
+    productTitle: "Pre-cleaner Type NDV",
+    productDescription:
+      "The compact and high-performance NEUERO Pre-cleaner Type NDV helps preserve the quality of your harvested products before further processing.<br><br>" +
+      "The machine operates according to the proven cascade principle. Air flows through the grain several times, effectively removing light impurities such as dust, chaff and broken kernels during continuous operation.<br><br>" +
+      "Thanks to its low installation height and flexible adjustment options, the NDV can be easily integrated into existing systems and adapted to different bulk materials.",
+
+    advantages: "Advantages",
+    advantage1:
+      "Compact design, ideal where space is limited",
+    advantage2:
+      "Effective separation of light impurities using the cascade principle",
+    advantage3:
+      "Flexible adjustment for optimum adaptation to your product",
+    advantage4:
+      "Suitable for retrofitting into existing grain processing systems",
+    advantage5:
+      "Equipped as standard with a fan, inspection window and throttle valve",
+
+    modelComparison: "Model sizes at a glance",
+    technicalData: "Technical data",
+    type: "Type",
+    inlet: "Inlet Ø [mm]",
+    outlet: "Outlet Ø [mm]",
+    extractionFan: "Extraction fan [kW]",
+    airCapacity: "Air capacity [m³/h]",
+    cleaningCapacity: "Cleaning capacity [t/h]",
+    cleaningCapacityNote:
+      "at a bulk density of 750 kg/m³ and 14% residual moisture",
+
+    galleryTitle: "Gallery",
+    previous: "Previous",
+    next: "Next",
+    galleryHint:
+      "Swipe left or right to browse through the gallery.",
+
+    openModel: "View product in 3D",
+    closeModel: "Back to gallery",
+    modelLoading: "Loading 3D model …",
+    modelInstructions:
+      "<strong>Using the model:</strong> Drag with one finger to rotate and use two fingers to zoom.",
+    modelError:
+      "The 3D model could not be loaded.",
+
+    brochureLabel: "Brochure",
+    close: "Close",
+
+    navHome: "Home",
+    navBrochures: "Brochures",
+    navInfo: "Info",
+    navGallery: "Gallery"
+  }
+ };
+
+  function translatePage() {
+  const elements = document.querySelectorAll("[data-i18n]");
+
+  elements.forEach(function (element) {
+    const translationKey =
+      element.getAttribute("data-i18n");
+
+    const translatedText =
+      translations[currentLanguage][translationKey];
+
+    if (translatedText !== undefined) {
+      element.innerHTML = translatedText;
+    }
+  });
+
+  document.documentElement.lang = currentLanguage;
+
+  const germanButton =
+    document.getElementById("languageDe");
+
+  const englishButton =
+    document.getElementById("languageEn");
+
+  if (germanButton) {
+    const germanIsActive = currentLanguage === "de";
+
+    germanButton.classList.toggle(
+      "active",
+      germanIsActive
+    );
+
+    germanButton.setAttribute(
+      "aria-pressed",
+      germanIsActive ? "true" : "false"
+    );
+  }
+
+  if (englishButton) {
+    const englishIsActive = currentLanguage === "en";
+
+    englishButton.classList.toggle(
+      "active",
+      englishIsActive
+    );
+
+    englishButton.setAttribute(
+      "aria-pressed",
+      englishIsActive ? "true" : "false"
+    );
+  }
+
+  updateModelButtonText();
+ }
+
+ function setLanguage(language) {
+  if (!translations[language]) {
+    return;
+  }
+
+  currentLanguage = language;
+  translatePage();
+  resetInactivityTimer();
+ }
+
+ function updateModelButtonText() {
+  const toggleText =
+    document.getElementById("modelToggleText");
+
+  if (!toggleText) {
+    return;
+  }
+
+  if (modelViewIsOpen) {
+    toggleText.innerHTML =
+      translations[currentLanguage].closeModel;
+
+    toggleText.setAttribute(
+      "data-i18n",
+      "closeModel"
+    );
+  } else {
+    toggleText.innerHTML =
+      translations[currentLanguage].openModel;
+
+    toggleText.setAttribute(
+      "data-i18n",
+      "openModel"
+    );
+  }
+ }
+
+ window.setLanguage = setLanguage;
 
   document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
@@ -1293,13 +1569,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.showPage = showPage;
 
-  function openBrochure(title, filePath) {
+  function openBrochure(titleKey, filePath) {
     const overlay = document.getElementById("pdfOverlay");
     const pdfTitle = document.getElementById("pdfTitle");
     const pdfFrame = document.getElementById("pdfFrame");
 
     if (pdfTitle) {
-      pdfTitle.textContent = title;
+      pdfTitle.textContent =
+        translations[currentLanguage][titleKey] || titleKey;
     }
 
     if (pdfFrame) {
@@ -1491,7 +1768,9 @@ function openModelView() {
   }
 
   if (toggleText) {
-    toggleText.textContent = "Zurück zur Galerie";
+  toggleText.setAttribute("data-i18n", "closeModel");
+  toggleText.innerHTML =
+    translations[currentLanguage].closeModel;
   }
 
   if (toggleButton) {
@@ -1526,7 +1805,9 @@ function closeModelView() {
   }
 
   if (toggleText) {
-    toggleText.textContent = "Produkt in 3-D ansehen";
+  toggleText.setAttribute("data-i18n", "openModel");
+  toggleText.innerHTML =
+    translations[currentLanguage].openModel;
   }
 
   if (toggleButton) {
@@ -1606,6 +1887,10 @@ if (productModel) {
     inactivityTimer = setTimeout(function () {
       closeBrochure();
       closeModelView();
+
+      currentLanguage = "de";
+      translatePage();
+
       showPage("home");
     }, inactivityTime);
   }
@@ -1644,6 +1929,7 @@ setInterval(function () {
 
 }, 7000);
 
+  setLanguage("de");
   updateMedia();
   resetInactivityTimer();
 
