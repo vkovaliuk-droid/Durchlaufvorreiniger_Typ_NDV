@@ -13,6 +13,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Messe Info">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <script
+  type="module"
+  src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"
+></script>
 
   <style>
     :root {
@@ -602,6 +606,130 @@ ul {
   display: block;
 }
 
+/* Umschalter zwischen Galerie und 3-D-Modell */
+
+.model-button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 18px 22px;
+  border: none;
+  border-radius: 18px;
+  background: #ffe843;
+  color: #004388;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+
+.model-button:active {
+  transform: scale(0.98);
+  background: #f5d900;
+}
+
+.model-button-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.model-button-icon svg {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.model-view {
+  display: none;
+  width: 100%;
+}
+
+.model-view.active {
+  display: block;
+}
+
+.model-viewer-box {
+  position: relative;
+  width: 90%;
+  height: 60vh;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: var(--radius-large);
+  background:
+    radial-gradient(
+      circle at center,
+      #ffffff 0%,
+      #e8f1fb 70%,
+      #ccdeef 100%
+    );
+}
+
+.model-viewer-box model-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: transparent;
+  --poster-color: transparent;
+}
+
+.model-loading {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: rgba(0, 67, 136, 0.9);
+  color: white;
+  font-size: 15px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.model-instructions {
+  width: 90%;
+  margin: 16px auto 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--color-card);
+  text-align: center;
+}
+
+.model-instructions p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.model-instructions strong {
+  color: #ffe843;
+}
+
+.model-error {
+  display: none;
+  width: 90%;
+  margin: 16px auto 0;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #7f1d1d;
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+}
+
+.model-error.active {
+  display: block;
+}
+
   </style>
 </head>
 
@@ -764,28 +892,84 @@ ul {
       </div>
     </section>
 
-    <section id="gallery" class="page">
-      <h2 class="page-title">Galerie</h2>
+<section id="gallery" class="page">
+  <h2 class="page-title">Galerie</h2>
 
-      <div class="gallery-box" id="galleryBox">
-        <img
-          id="galleryImage"
-          src="bilder/NDV_Bild_1.jpg"
-          alt="Durchlaufvorreiniger 
+  <!-- Normale Bildergalerie -->
+  <div id="galleryView">
 
-        <video id="galleryVideo" controls playsinline style="display: none;">
-          
-        </video>
-      </div>
+    <div class="gallery-box" id="galleryBox">
+      bilder/NDV_Bild_1.jpg
 
-      <div class="gallery-controls">
-        <button onclick="prevMedia()">Zurück</button>
-        <div id="mediaDots" class="media-dots"></div>
-        <button onclick="nextMedia()">Weiter</button>
-      </div>
+      <video
+        id="galleryVideo"
+        controls
+        playsinline
+        preload="metadata"
+        style="display: none;"
+      >
+        
+      </video>
+    </div>
 
-      <p class="hint">Sie können die Galerie auch nach links oder rechts wischen.</p>
-    </section>
+    <div class="gallery-controls">
+      <button type="button" onclick="prevMedia()">
+        Zurück
+      </button>
+
+      <div id="mediaDots" class="media-dots"></div>
+
+      <button type="button" onclick="nextMedia()">
+        Weiter
+      </button>
+    </div>
+
+    <p class="hint">
+      Sie können die Galerie auch nach links oder rechts wischen.
+    </p>
+  </div>
+
+  <!-- 3-D-Ansicht -->
+  <div id="modelView" class="model-view">
+
+    <div class="model-viewer-box">
+      <model-viewer
+        id="productModel"
+        src="modelle/NDV40-60.glb"
+        alt="Interaktives 3-D-Modell des Durchlaufvorreinigers Typ NDV"
+        camera-controls
+        auto-rotate
+        rotation-per-second="18deg"
+        shadow-intensity="1"
+        exposure="1"
+        interaction-prompt="auto"
+        touch-action="pan-y"
+        loadingass="model-error">
+      Das 3-D-Modell konnte nicht geladen werden.
+    </div>
+  </div>
+
+  <!-- Umschalter zwischen Galerie und 3-D-Modell -->
+  <button
+    id="modelToggleButton"
+    class="model-button"
+    type="button"
+    onclick="toggleModelView()"
+    aria-pressed="false"
+  >
+    <span class="model-button-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2.5 20 7v10l-8 4.5L4 17V7z"></path>
+        <path d="M4 7l8 4.5L20 7"></path>
+        <path d="M12 11.5v10"></path>
+      </svg>
+    </span>
+
+    <span id="modelToggleText">
+      Produkt in 3-D ansehen
+    </span>
+  </button>
+</section>
 
   </main>
 
@@ -899,6 +1083,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showPage(pageId) {
     closeBrochure();
+
+      if (pageId !== "gallery") {
+    closeModelView();
+    }
 
     const pages = document.querySelectorAll(".page");
 
@@ -1062,6 +1250,127 @@ document.addEventListener("DOMContentLoaded", function () {
   window.nextMedia = nextMedia;
   window.prevMedia = prevMedia;
 
+let modelViewIsOpen = false;
+
+function toggleModelView() {
+  if (modelViewIsOpen) {
+    closeModelView();
+  } else {
+    openModelView();
+  }
+
+  resetInactivityTimer();
+}
+
+function openModelView() {
+  const galleryView =
+    document.getElementById("galleryView");
+
+  const modelView =
+    document.getElementById("modelView");
+
+  const toggleText =
+    document.getElementById("modelToggleText");
+
+  const toggleButton =
+    document.getElementById("modelToggleButton");
+
+  modelViewIsOpen = true;
+
+  stopVideo();
+
+  if (galleryView) {
+    galleryView.style.display = "none";
+  }
+
+  if (modelView) {
+    modelView.classList.add("active");
+  }
+
+  if (toggleText) {
+    toggleText.textContent = "Zurück zur Galerie";
+  }
+
+  if (toggleButton) {
+    toggleButton.setAttribute("aria-pressed", "true");
+  }
+}
+
+function closeModelView() {
+  const galleryView =
+    document.getElementById("galleryView");
+
+  const modelView =
+    document.getElementById("modelView");
+
+  const toggleText =
+    document.getElementById("modelToggleText");
+
+  const toggleButton =
+    document.getElementById("modelToggleButton");
+
+  const productModel =
+    document.getElementById("productModel");
+
+  modelViewIsOpen = false;
+
+  if (galleryView) {
+    galleryView.style.display = "block";
+  }
+
+  if (modelView) {
+    modelView.classList.remove("active");
+  }
+
+  if (toggleText) {
+    toggleText.textContent = "Produkt in 3-D ansehen";
+  }
+
+  if (toggleButton) {
+    toggleButton.setAttribute("aria-pressed", "false");
+  }
+
+  if (
+    productModel &&
+    typeof productModel.resetTurntableRotation === "function"
+  ) {
+    productModel.resetTurntableRotation();
+  }
+}
+
+window.toggleModelView = toggleModelView;
+
+const productModel =
+  document.getElementById("productModel");
+
+const modelLoading =
+  document.getElementById("modelLoading");
+
+const modelError =
+  document.getElementById("modelError");
+
+if (productModel) {
+  productModel.addEventListener("load", function () {
+    if (modelLoading) {
+      modelLoading.style.display = "none";
+    }
+
+    if (modelError) {
+      modelError.classList.remove("active");
+    }
+  });
+
+  productModel.addEventListener("error", function () {
+    if (modelLoading) {
+      modelLoading.style.display = "none";
+    }
+
+    if (modelError) {
+      modelError.classList.add("active");
+    }
+  });
+}
+
   let startX = 0;
   let startY = 0;
   let endX = 0;
@@ -1100,6 +1409,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     inactivityTimer = setTimeout(function () {
       closeBrochure();
+      closeModelView();
       showPage("home");
     }, inactivityTime);
   }
