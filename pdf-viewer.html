@@ -30,10 +30,10 @@ canvas{
 
 <script type="module">
 
-import * as pdfjsLib from "./Pdfjs/pdf.mjs";
+import * as pdfjsLib from "./pdfjs/pdf.mjs";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-"./Pdfjs/pdf.worker.mjs";
+"./pdfjs/pdf.worker.mjs";
 
 const params = new URLSearchParams(window.location.search);
 const pdfFile = params.get("file");
