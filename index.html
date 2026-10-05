@@ -897,7 +897,7 @@ line-height: 1;
 
         <button 
           class="brochure-card" 
-          onclick="openBrochure('cleaningCatalog', 'pdf/Reinigen_Katalog.pdf')"
+          onclick="openBrochure('cleaningCatalog', 'Pdf/Reinigen_Katalog.pdf')"
         >
           <span class="icon">📄</span>
           <div>
@@ -913,7 +913,7 @@ line-height: 1;
 
         <button 
           class="brochure-card" 
-          onclick="openBrochure('cleaningBrochure', 'pdf/Reinigen_Prospekt.pdf')"
+          onclick="openBrochure('cleaningBrochure', 'Pdf/Reinigen_Prospekt.pdf')"
         >
           <span class="icon">📄</span>
           <div>
@@ -1939,7 +1939,20 @@ setInterval(function () {
 <script>
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./service-worker.js");
+      navigator.serviceWorker
+        .register("./service-worker.js")
+        .then(function (registration) {
+          console.log(
+            "Service Worker registriert:",
+            registration.scope
+         );
+        })
+        .catch(function (error) {
+          console.error(
+            "Fehler beim Service Worker:",
+            error
+          );
+        });
     });
   }
 </script>
