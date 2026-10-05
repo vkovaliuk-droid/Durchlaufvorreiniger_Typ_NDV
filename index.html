@@ -810,6 +810,62 @@ line-height: 1;
   transform: scale(0.96);
 }
 
+/* Sprachschalter ausblenden, während ein PDF geöffnet ist */
+
+body.pdf-is-open .language-switch {
+  display: none;
+}
+
+/* Registerkarten für die 3-D-Modelle */
+
+.model-tabs {
+  width: 90%;
+  margin: 0 auto 12px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+
+  padding: 5px;
+  border-radius: 16px;
+
+  background: rgba(2, 6, 23, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.model-tab {
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 5px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.model-tab.active {
+  background: #ffe843;
+  color: #004388;
+}
+
+.model-tab:active {
+  transform: scale(0.97);
+}
+
 </style>
 
 </head>
@@ -1111,6 +1167,48 @@ line-height: 1;
   <!-- 3-D-Ansicht -->
   <div id="modelView" class="model-view">
 
+    <div
+      class="model-tabs"
+      role="tablist"
+      aria-label="3-D-Modell auswählen"
+    >
+      <button
+        id="modelTab15"
+        class="model-tab"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-model="NDV15-35"
+        onclick="selectProductModel('NDV15-35')"
+      >
+        NDV 15-35
+      </button>
+
+      <button
+        id="modelTab40"
+        class="model-tab active"
+        type="button"
+        role="tab"
+        aria-selected="true"
+        data-model="NDV40-60"
+        onclick="selectProductModel('NDV40-60')"
+      >
+        NDV 40-60
+      </button>
+
+      <button
+        id="modelTab80"
+        class="model-tab"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-model="NDV80-120"
+        onclick="selectProductModel('NDV80-120')"
+      >
+        NDV 80-120
+      </button>
+    </div>
+
     <div class="model-viewer-box">
       <model-viewer
        id="productModel"
@@ -1401,6 +1499,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (translatedText !== undefined) {
       element.innerHTML = translatedText;
     }
+
+    const activeModelData =
+      productModels[selectedProductModel];
+
+    const activeModelViewer =
+      document.getElementById("productModel");
+
+    if (activeModelData && activeModelViewer) {
+      activeModelViewer.alt =
+        currentLanguage === "en"
+          ? activeModelData.altEn
+          : activeModelData.altDe;
+    }
   });
 
   document.documentElement.lang = currentLanguage;
@@ -1573,6 +1684,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const overlay = document.getElementById("pdfOverlay");
     const pdfTitle = document.getElementById("pdfTitle");
     const pdfFrame = document.getElementById("pdfFrame");
+    document.body.classList.add("pdf-is-open");
 
     if (pdfTitle) {
       pdfTitle.textContent =
@@ -1593,6 +1705,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function closeBrochure() {
+    document.body.classList.remove("pdf-is-open");
     const overlay = document.getElementById("pdfOverlay");
     const pdfFrame = document.getElementById("pdfFrame");
 
@@ -1707,6 +1820,37 @@ const DEFAULT_CAMERA_ORBIT = "0deg 75deg auto";
 const DEFAULT_CAMERA_TARGET = "auto auto auto";
 const DEFAULT_FIELD_OF_VIEW = "30deg";
 
+const productModels = {
+  "NDV15-35": {
+    src: "modelle/NDV15-35.glb",
+    altDe:
+      "3-D-Modell des Durchlaufvorreinigers NDV 15-35",
+    altEn:
+      "3D model of the NDV 15-35 pre-cleaner"
+  },
+
+  "NDV40-60": {
+    src: "modelle/NDV40-60.glb",
+    altDe:
+      "3-D-Modell des Durchlaufvorreinigers NDV 40-60",
+    altEn:
+      "3D model of the NDV 40-60 pre-cleaner"
+  },
+
+  "NDV80-120": {
+    src: "modelle/NDV80-120.glb",
+    altDe:
+      "3-D-Modell des Durchlaufvorreinigers NDV 80-120",
+    altEn:
+      "3D model of the NDV 80-120 pre-cleaner"
+  }
+};
+
+const DEFAULT_PRODUCT_MODEL = "NDV40-60";
+
+let selectedProductModel =
+  DEFAULT_PRODUCT_MODEL;
+
 function resetModelView() {
   const model = document.getElementById("productModel");
 
@@ -1729,6 +1873,94 @@ function resetModelView() {
     model.jumpCameraToGoal();
   }
 }
+
+function selectProductModel(modelKey) {
+  const modelData =
+    productModels[modelKey];
+
+  const modelViewer =
+    document.getElementById("productModel");
+
+  const modelLoading =
+    document.getElementById("modelLoading");
+
+  const modelError =
+    document.getElementById("modelError");
+
+  if (!modelData || !modelViewer) {
+    return;
+  }
+
+  selectedProductModel = modelKey;
+
+  /*
+    Aktive Registerkarte aktualisieren
+  */
+  const modelTabs =
+    document.querySelectorAll(".model-tab");
+
+  modelTabs.forEach(function (tab) {
+    const isActive =
+      tab.dataset.model === modelKey;
+
+    tab.classList.toggle(
+      "active",
+      isActive
+    );
+
+    tab.setAttribute(
+      "aria-selected",
+      isActive ? "true" : "false"
+    );
+  });
+
+  /*
+    Ladeanzeige zeigen und alte Fehlermeldung entfernen
+  */
+  if (modelLoading) {
+    modelLoading.style.display = "block";
+
+    modelLoading.innerHTML =
+      translations[currentLanguage].modelLoading;
+  }
+
+  if (modelError) {
+    modelError.classList.remove("active");
+  }
+
+  /*
+    Kameraposition vor dem Wechsel zurücksetzen
+  */
+  resetModelView();
+
+  /*
+    Beschreibung an aktuelle Sprache anpassen
+  */
+  modelViewer.alt =
+    currentLanguage === "en"
+      ? modelData.altEn
+      : modelData.altDe;
+
+  /*
+    GLB-Datei wechseln
+  */
+  if (
+    modelViewer.getAttribute("src") !==
+    modelData.src
+  ) {
+    modelViewer.setAttribute(
+      "src",
+      modelData.src
+    );
+  } else {
+    resetModelView();
+  }
+
+  resetInactivityTimer();
+}
+
+window.selectProductModel =
+  selectProductModel;
 
 function toggleModelView() {
   if (modelViewIsOpen) {
@@ -1795,6 +2027,7 @@ function closeModelView() {
 
   /* Modell vor dem Ausblenden zurücksetzen */
   resetModelView();
+  selectProductModel(DEFAULT_PRODUCT_MODEL);
 
   if (galleryView) {
     galleryView.style.display = "block";
